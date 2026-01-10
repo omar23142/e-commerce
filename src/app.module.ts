@@ -27,7 +27,7 @@ import { dataSourceOptions } from '../DB/data-source';
     UploadsModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath:`.env.${process.env.NODE_ENV}` 
+      envFilePath: process.env.NODE_ENV === 'production'? `.env.${process.env.NODE_ENV}` : '.env'
       
     }),
     JwtModule.registerAsync({

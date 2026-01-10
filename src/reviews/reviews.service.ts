@@ -1,7 +1,7 @@
 import { ForbiddenException, Inject, NotFoundException } from "@nestjs/common";
 import { Injectable, forwardRef } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { ProductService } from "nest-proj/src/products/products.service";
+
 import { UserService } from "../users/User.Service";
 import { review } from "./review.entity";
 import { Repository } from "typeorm";
