@@ -10,7 +10,7 @@ import { diskStorage } from "multer";
    exports:[],
    imports:[MulterModule.register({
         storage:diskStorage({
-            destination: './uploads',
+            destination: './tmp/uploads',
             filename: (req:any, file, cb) => {
                 const ext = file.originalname.split('.').pop();
                 //console.log('req user', req[CURENT_USER_KEY]);
