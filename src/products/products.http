@@ -1,0 +1,35 @@
+### all products
+Get http://localhost:3000/api/v1/products?sort=price&sort=name&tittle=book
+
+### single product
+Get http://localhost:3000/api/v1/products/2
+
+
+### single product with express  way (req,res)
+Get http://localhost:3000/api/v1/products-express/2
+
+### post
+Post http://localhost:3000/api/v1/products
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6Ik5PUk1BTF9VU0VSIiwiaWF0IjoxNzY1MDg3MjY1fQ.PjtizkfO6zx1N9exW7d7pzGemjoU_PyqnS9CZbIo7F0
+
+{
+    "name":"pen",
+    "price":4,
+    "discription":"this is discription for book"
+    //"rating":1
+}
+
+### patch
+PATCH http://localhost:3000/api/v1/products/1
+Content-Type: application/json
+
+{
+    "name":"new cary",
+    "price":39,
+    "discription":"this is new discription for cary"
+    //"rating":3
+}
+
+### Delete
+DELETE http://localhost:3000/api/v1/products/2

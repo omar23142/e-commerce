@@ -1,0 +1,33 @@
+
+{
+
+"configurations": [
+    {
+        "name":"Debug NestJs app",
+        "type":"node",
+        "request":"launch",
+        "program":"${workspaceFolder}/app.js",
+        "cwd":"${workspaceFolder}",
+        "runtimeExecutable":"npm",
+        "env":{
+            "NODE_ENV":"development"
+        },
+        "runtimeArgs":[
+            "run",
+            "start:debug"
+        ],
+        "console":"integratedTerminal"
+    },
+    {
+        "name":"Attach to NestJs app",
+        "type":"node",
+        "request":"attach",
+        "port":9229
+        // "address":"localhost",
+        // "restart":false,
+        // "sourceMaps":true,
+        // "outFiles":[
+        //     "${workspaceFolder}/dist/**/*.js"
+        //]
+    }]
+}

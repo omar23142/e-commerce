@@ -1,0 +1,30 @@
+### all products
+Get http://localhost:3000/api/v1/reviews?limit=2&page=2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6Ik5PUk1BTF9VU0VSIiwiaWF0IjoxNzY1Mjc3NzA4fQ.OYMvTPSeeegCqYSpWB2SWryR_Onyj52zgdz5p14rih4
+
+
+### single product
+Get http://localhost:3000/api/v1/reviews/3
+
+### post
+Post http://localhost:3000/api/v1/reviews/2
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6Ik5PUk1BTF9VU0VSIiwiaWF0IjoxNzY1Mjc3NzA4fQ.OYMvTPSeeegCqYSpWB2SWryR_Onyj52zgdz5p14rih4
+
+
+{
+    "review":"bad",
+    "rating":1
+    //"rating":1
+}
+
+### patch
+PATCH http://localhost:3000/api/v1/reviews/5
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwicm9sZSI6Ik5PUk1BTF9VU0VSIiwiaWF0IjoxNzY1Mjc3NzA4fQ.OYMvTPSeeegCqYSpWB2SWryR_Onyj52zgdz5p14rih4
+
+{
+    "review":"new review",
+    "rating":3
+}
