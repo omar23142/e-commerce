@@ -106,42 +106,72 @@ public async updateOne(body:UpdateUserDto, id:number) {
         return user; 
     }
     
-    public async setUserImage(user:user, ImageName:string) {
-        await this.IsUserExist(user.id)
-        if (user.photo === null)
-            user.photo = ImageName;
-        else {
-            await this.deleteImageFile(user.photo);
-             user.photo = ImageName;
-        }
+    // public async setUserImage(user:user, ImageName:string) {
+    //     await this.IsUserExist(user.id)
+    //     if (user.photo === null)
+    //         user.photo = ImageName;
+    //     else {
+    //         await this.deleteImageFile(user.photo);
+    //          user.photo = ImageName;
+    //     }
 
+    //     await this.userRepo.save(user);
+    //     return  user;
+    // }
+
+    // use coludinary for save the image , not on server
+    public async setUserImage(user:user, ImageUrl:string) {
+        await this.IsUserExist(user.id)
+        user.photo = ImageUrl;
         await this.userRepo.save(user);
         return  user;
     }
 
-    public async RemoveUserImage(userId:number) {
+
+
+    // public async RemoveUserImage(userId:number) {
+    //     const user = await this.getOne(userId);
+    //     if(user.photo === null)
+    //         throw new BadRequestException('there is no photo for this user')
+    //     await this.deleteImageFile(user.photo)
+    //     return this.userRepo.update(userId, { photo:null})
+        
+    // }
+
+     public async RemoveUserImage(userId:number) {
         const user = await this.getOne(userId);
         if(user.photo === null)
             throw new BadRequestException('there is no photo for this user')
-        await this.deleteImageFile(user.photo)
+        // to do : remove from cludinary 
+        
         return this.userRepo.update(userId, { photo:null})
         
     }
+
+
+    // public getUserImage(user:user, res:Response) {
+    //     if (!user.photo)
+    //         throw new BadRequestException('this user do not have photo')
+        
+    //     return res.sendFile(user.photo, {root:'images/users'});
+    // }
+
+    // just return the image url that exist on DB because we use cloud instead of stor data on server
     public getUserImage(user:user, res:Response) {
         if (!user.photo)
             throw new BadRequestException('this user do not have photo')
         
-        return res.sendFile(user.photo, {root:'images/users'});
+        return user.photo;
     }
-    private async deleteImageFile(fileName: string) {
-    const imagePath = join(process.cwd(), `./images/users/${fileName}`);
+//     private async deleteImageFile(fileName: string) {
+//     const imagePath = join(process.cwd(), `./images/users/${fileName}`);
 
-    try {
-        await fs.promises.unlink(imagePath);
-    } catch (err) {
-        console.warn('Image not found while deleting:', err);
-    }
-}
+//     try {
+//         await fs.promises.unlink(imagePath);
+//     } catch (err) {
+//         console.warn('Image not found while deleting:', err);
+//     }
+// }
 
 public async VerifyEmail(userId:number, verifycationEmail:string) {
     const user = await this.getOne(userId);

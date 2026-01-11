@@ -14,7 +14,7 @@ import { user } from "./user.entity";
 import { LoggerInterceptor } from "../utils/interceptors/logger.interceptor";
 import type { Response,Express } from "express";
 import { FileInterceptor } from "@nestjs/platform-express";
-import { diskStorage } from "multer";
+
 import type { Request as ExpressRequest  } from "express";
 import { ForgetPassDto } from "./dtos/ForgetPassDto.dto";
 import { ResetPassDtoDto } from "./dtos/RessetPassDto.dto";
@@ -22,14 +22,16 @@ import { imageUploadDto } from "./dtos/image-upload-DTO.dto";
 import { ApiSecurity, ApiConsumes, ApiBody } from "@nestjs/swagger";
 import { Throttle } from "@nestjs/throttler";
 import { throttle } from "rxjs";
-
+import {CloudinaryService} from '../Uploads/cloudinary.service'
 
 @Controller()
 export class UsersController {
     private readonly UserService:UserService;
     private readonly loger;
-    constructor(userService:UserService) {
+    private cloudinaryService:CloudinaryService
+    constructor(userService:UserService, cloudinaryService:CloudinaryService) {
         this.UserService = userService;
+        this.cloudinaryService=cloudinaryService;
         this.loger = new Logger(UsersController.name);
     }
 @Get('/api/v1/users')
@@ -95,6 +97,16 @@ public uploadFile(@UploadedFile() file: Express.Multer.File,@GetCurrentUser() us
             throw new BadRequestException('File is required');
         }
         console.log(file);
+        const result = await this.cloudinaryService.uploadImage(file);
+
+       
+        return {
+            message: 'file uploaded successfully', 
+            imageUrl: result.secure_url, 
+            publicId: result.public_id
+        };
+    }
+        
         // return {message: 'file uploaded successfully', filePath: file.path};
         return this.UserService.setUserImage(user, file.filename)
 }
@@ -121,7 +133,7 @@ public verifyEmail(
 @HttpCode(HttpStatus.OK)
 public ForgetPass(
 // @Param('userId',ParseIntPipe) userId:number, @Param('ResetPassToken') token:string,
- @Req() req:ExpressRequest, @Body() dto:ForgetPassDto) {
+@Req() req:ExpressRequest, @Body() dto:ForgetPassDto) {
     return this.UserService.ForgetPassword( req, dto.email, dto.userName );
 }
 @Get('api/v1/users/reset-password/:ResetPassToken')
