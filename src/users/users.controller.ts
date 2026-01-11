@@ -91,13 +91,16 @@ public deleteMe(@GetCurrentUser() user) {
 @UseInterceptors(FileInterceptor('userImage'))
 
 
-public uploadFile(@UploadedFile() file: Express.Multer.File,@GetCurrentUser() user:user) {
+public async uploadFile(@UploadedFile() file: Express.Multer.File,@GetCurrentUser() user:user) {
     this.loger.debug(file)    
     if (!file) {
             throw new BadRequestException('File is required');
         }
         console.log(file);
         const result = await this.cloudinaryService.uploadImage(file);
+        
+        // return {message: 'file uploaded successfully', filePath: file.path};
+        await this.UserService.setUserImage(user, result.secure_url);
 
        
         return {
@@ -107,9 +110,6 @@ public uploadFile(@UploadedFile() file: Express.Multer.File,@GetCurrentUser() us
         };
     }
         
-        // return {message: 'file uploaded successfully', filePath: file.path};
-        return this.UserService.setUserImage(user, file.filename)
-}
 @Delete('api/v1/users/profileImage')
 @UseGuards(ProtectGard)
 public RemoveProfileImage(@GetCurrentUser() user:user){
